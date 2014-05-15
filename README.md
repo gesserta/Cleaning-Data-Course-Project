@@ -1,41 +1,24 @@
-##Variables
-The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz. 
+#Summary of program run_analysis.R
+##Prep
+* Be sure to download the sample data file and unzip it without creating a new folder
+* Make sure your working directory is set to that folder
+* There should be a folder in your working directory titled "UCI HAR Dataset" with unzipped files in a folder structure inside it
+* If you need to download and unzip the file, you can use the below script:
 
-Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag). 
+fileURL<-"http://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
+download.file(fileURL, destfile = "proj.zip")
+unzip("proj.zip")
 
-Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals). 
-
-These signals were used to estimate variables of the feature vector for each pattern:  
-'-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
-
-tbodyaccxyz
-tgravityaccxyz
-tbodyaccjerkxyz
-tbodygyroxyz
-tbodygyrojerkxyz
-tbodyaccmag
-tgravityaccmag
-tbodyaccjerkmag
-tbodygyromag
-tbodygyrojerkmag
-fbodyaccxyz
-fbodyaccjerkxyz
-fbodygyroxyz
-fbodyaccmag
-fbodyaccjerkmag
-fbodygyromag
-fbodygyrojerkmag
-
-The set of variables that were estimated from these signals and included in this dataset are: 
-
-mean(): Mean value
-std(): Standard deviation
-meanfreq(): Weighted average of the frequency components to obtain a mean frequency
-
-Additional vectors obtained by averaging the signals in a signal window sample. These are used on the angle() variable:
-
-gravitymean
-tbodyaccmean
-tbodyaccjerkmean
-tbodygyromean
-tbodygyrojerkmean
+##Primary steps within code
+* Read in the field labels from the features.txt file and remove the first column
+* Read in the X_test, X_train, subject_test, subject_train, y_test, and y_train files
+* Set the column names of the subject_ files to "subject"
+* Set the column names of the y_ files to "activity"
+* Assign the field names contained within the features.txt file to the test and train files
+* Bind together the primary test and then train files with their associated activity and subject files
+* Add a new field to the end of the dataset to show the file source (train or test)
+* Bind together the train and test datasets
+* Limit the dataset to only columns that contain the word "mean" or "std" as well as the subject/activity/source columns
+* Create the tidy dataset by taking the mean of the numeric columns grouped by the subject and activity
+* Clean up the field names by making them lowercase and removing special characters
+* Output a tab delimited file
